@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopEase — Gadgets & Fashion Online</title>
+
+<style>
+:root{
+  --primary: #1a7a2a;
+  --secondary: #2fb04f;
+  --accent: #222;
+  --bg: #f4f4f4;
+  --card: #fff;
+  --muted: #64748b;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.06);
+  font-size:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Inter", sans-serif;background:var(--bg);color:#111;line-height:1.4}
+
+/* HEADER */
+header.site-header{display:flex;align-items:center;justify-content:space-between;max-width:1100px;margin:0 auto;padding:1rem}
+.brand{display:flex;align-items:center;gap:.75rem}
+.logo{width:50px;height:50px;border-radius:10px}
+.site-title{margin:0;font-size:1.5rem;font-weight:700;color:var(--primary)}
+.site-tag{margin:0;font-size:0.9rem;color:var(--muted)}
+.main-nav ul{display:flex;gap:1rem;list-style:none;margin:0;padding:0}
+.main-nav a{text-decoration:none;font-weight:600;color:var(--muted);padding:6px 10px;border-radius:8px}
+.main-nav a:hover{background:var(--secondary);color:#fff}
+.cart-btn{background:transparent;border:2px solid var(--primary);padding:8px 12px;border-radius:10px;color:var(--primary);cursor:pointer}
+
+/* HERO */
+.hero{background:linear-gradient(90deg,var(--secondary),#fff);margin:12px auto;max-width:1100px;border-radius:var(--radius);padding:2rem;display:grid;grid-template-columns:1fr 300px;gap:1rem;box-shadow:var(--shadow)}
+.hero h2{margin:0;font-size:2rem;color:var(--primary)}
+.hero p{margin:8px 0;color:var(--muted)}
+.hero-image{background:url("https://images.unsplash.com/photo-1592503257671-9ed3448e12d6?q=80&w=800") center/cover;border-radius:var(--radius);min-height:180px}
+
+/* FILTERS & SEARCH */
+.controls{max-width:1100px;margin:1rem auto;padding:0 1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.chips input{display:none}
+.chips label{padding:6px 12px;border:1px solid #ddd;border-radius:999px;margin-right:8px;font-size:.9rem;cursor:pointer}
+.chips input:checked + label{background:var(--primary);color:#fff}
+.search-mini input{padding:8px 12px;border-radius:8px;border:1px solid #ddd;min-width:200px}
+
+/* PRODUCTS GRID */
+.products-section{max-width:1100px;margin:1.5rem auto;padding:0 1rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.card{background:var(--card);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;box-shadow:var(--shadow);transition:.25s}
+.card:hover{transform:translateY(-4px)}
+.card img{width:100%;height:200px;object-fit:cover}
+.card-body{padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.card-body h3{margin:0;color:var(--primary)}
+.price{font-weight:700;color:var(--primary)}
+.addCart{border:none;background:var(--secondary);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer}
+
+/* CART MODAL */
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000}
+.modal-content{background:#fff;width:400px;max-width:90%;margin:10% auto;padding:20px;border-radius:var(--radius)}
+.modal-content h2{margin-top:0}
+
+/* REVIEWS */
+.reviews{max-width:1100px;margin:2rem auto;padding:0 1rem}
+.testimonials{display:flex;gap:1rem;list-style:none;flex-wrap:wrap}
+.testimonials blockquote{background:#fff;padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow);flex:1}
+
+/* CONTACT FORM */
+.contact{max-width:1100px;margin:2rem auto;padding:1rem}
+.contact-form{background:#fff;padding:1rem;border-radius:var(--radius);display:grid;gap:1rem;box-shadow:var(--shadow)}
+.contact-form input,.contact-form textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #ddd}
+
+/* NEW: PRODUCT REVIEW + STAR RATINGS */
+.product-review{max-width:1100px;margin:2rem auto;padding:1rem;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow)}
+.product-review h2{margin-bottom:1rem;color:var(--primary)}
+.stars input{display:none}
+.stars label{font-size:1.5rem;color:#ddd;cursor:pointer}
+.stars input:checked ~ label,
+.stars input:hover ~ label,
+.stars label:hover,
+.stars label:hover ~ label{color:#f5b50a}
+.quantity input{width:60px;padding:5px;border-radius:8px;border:1px solid #ddd}
+
+/* FOOTER */
+.site-footer{max-width:1100px;margin:2rem auto;background:var(--primary);color:#fff;padding:1rem;border-radius:var(--radius)}
+.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.hero-image{display:none}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <img class="logo" src="https://mir-s3-cdn-cf.behance.net/projects/404/df6b47193455339.Y3JvcCw0NTAxLDM1MjAsMCw0OTA.jpg" alt="ShopEase Logo">
+    <div>
+      <h1 class="site-title">ShopEase</h1>
+      <p class="site-tag">@ShopEase — Gadgets, Fashion & More</p>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <ul>
+      <li><a href="#products-section">Products</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#product-review">Rate Products</a></li>
+    </ul>
+  </nav>
+
+  <button class="cart-btn" id="viewCart">🛒 <span id="cartCount">0</span></button>
+</header>
+
+<section class="hero">
+  <div>
+    <h2>Shop the Best Gadgets & Accessories</h2>
+    <p>Top-quality products delivered to your door!</p>
+  </div>
+  <div class="hero-image"></div>
+</section>
+
+<section class="controls">
+  <div class="chips">
+    <input type="radio" name="category" id="all" checked><label for="all">All</label>
+    <input type="radio" name="category" id="shoes"><label for="shoes">Shoes</label>
+    <input type="radio" name="category" id="watch"><label for="watch">Watches</label>
+    <input type="radio" name="category" id="headphone"><label for="headphone">Headphones</label>
+    <input type="radio" name="category" id="sunglasses"><label for="sunglasses">Sunglasses</label>
+  </div>
+  <form class="search-mini">
+    <input type="search" id="searchBar" placeholder="Search products...">
+  </form>
+</section>
+
+<section class="products-section" id="products-section">
+  <h2>Featured Products</h2>
+  <div class="grid" id="productGrid"></div>
+</section>
+
+<section class="reviews" id="reviews">
+  <h2>Customer Reviews</h2>
+  <ul class="testimonials">
+    <li><blockquote>"Excellent product quality!" — Yaashi</blockquote></li>
+    <li><blockquote>"Fast delivery and very reliable." — Shubham</blockquote></li>
+  </ul>
+</section>
+
+<section class="contact" id="contact">
+  <h2>Contact Us</h2>
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name">
+    <input type="email" placeholder="Email">
+    <textarea placeholder="Message"></textarea>
+    <button type="button">Send Message</button>
+  </form>
+</section>
+
+<!-- NEW: Product Review & Rating Section -->
+<section class="product-review" id="product-review">
+  <h2>Rate Your Favorite Product</h2>
+  <div>
+    <label>Product:</label>
+    <select id="reviewProduct">
+      <option value="Nike Shoes">Nike Shoes</option>
+      <option value="Smart Watch">Smart Watch</option>
+      <option value="Headphones">Headphones</option>
+      <option value="Sunglasses">Sunglasses</option>
+    </select>
+  </div>
+  <div class="stars">
+    <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
+    <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+    <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+    <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+    <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+  </div>
+  <div class="quantity">
+    <label>Quantity:</label>
+    <input type="number" id="reviewQty" value="1" min="1">
+  </div>
+  <div>
+    <textarea id="reviewMsg" placeholder="Write your review..."></textarea>
+  </div>
+  <button id="submitReview">Submit Review</button>
+  <h3>Submitted Reviews:</h3>
+  <div id="submittedReviews"></div>
+</section>
+
+<div class="modal" id="cartModal">
+  <div class="modal-content">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <h3 id="totalPrice">Total: ₹0</h3>
+    <button id="checkoutBtn">Checkout</button>
+    <button id="closeCart">Close</button>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>© 2025 ShopEase — Gadgets & Fashion Online</p>
+  </div>
+</footer>
+
+<script>
+// PRODUCTS
+const products = [
+  {id:1,name:"Nike Shoes",category:"shoes",price:2999,img:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSmra9b8x1Vpw_nlHYsZpgwaT7ON7M5zpGN1mPEmQVqq2fLFLDuyIGVx8E_IuDQHZ2cnqqabfh22WFJWSsrnC2abRzVw3LP6S7no2jC0ANaQSIYZxcA4sKX02o"},
+  {id:2,name:"Smart Watch",category:"watch",price:1499,img:"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQepZj8GoGjBHbroRaUNJqGPUKK6ST62GHYpa3T3HD-4wPtwTLC-gnPjmaWgYIq-2NjiF5h5nZ80eVRKY9pUvh5NhnqDQvS_eHTdeR9QtwSejctD_i-wNMy"},
+  {id:3,name:"Headphones",category:"headphone",price:999,img:"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQa5G0Bo7WdlXrARtMeFDkbKbmOvuIW6I5onJHe5gxhhsf67JCmmqOxyPlMXkoB_zbWzd5KFDrHJuO-7gR7OSWof1fHT3J5rZSWu-7UPRSUYTW5yQIRQMNcbVewdN4vbUYHv28vZEg"},
+  {id:4,name:"Sunglasses",category:"sunglasses",price:699,img:"https://www.chanel.com/images///c_crop,w_1.0,h_0.53,y_0.188,t_fashioncommercial,f_auto,q_auto:good,dpr_1.1/w_1600/-9540999118878.jpg"}
+];
+
+let cart = [];
+
+// RENDER PRODUCTS
+function renderProducts(list){
+  const container = document.getElementById('productGrid');
+  container.innerHTML = '';
+  list.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="${p.img}" alt="${p.name}">
+      <div class="card-body">
+        <h3>${p.name}</h3>
+        <span class="price">₹${p.price}</span>
+        <button class="addCart">Add to Cart</button>
+      </div>
+    `;
+    container.appendChild(card);
+    card.querySelector('.addCart').addEventListener('click', ()=>addToCart(p.id));
+  });
+}
+renderProducts(products);
+
+function addToCart(id){
+  const item = products.find(p=>p.id===id);
+  cart.push(item);
+  updateCart();
+}
+
+function updateCart(){
+  const container = document.getElementById('cartItems');
+  let total = 0;
+  container.innerHTML = cart.map(it=>{total+=it.price; return `<p>${it.name} - ₹${it.price}</p>`}).join('');
+  document.getElementById('totalPrice').innerText = 'Total: ₹'+total;
+  document.getElementById('cartCount').innerText = cart.length;
+}
+
+// CART MODAL
+const cartModal = document.getElementById("cartModal");
+document.getElementById("viewCart").onclick = ()=>cartModal.style.display='block';
+document.getElementById("closeCart").onclick = ()=>cartModal.style.display='none';
+document.getElementById("checkoutBtn").onclick = ()=>{
+  if(cart.length===0){ alert('Cart is empty'); return }
+  alert('Order placed! Total: ₹'+cart.reduce((s,i)=>s+i.price,0));
+  cart=[]; updateCart(); cartModal.style.display='none';
+}
+
+// SEARCH
+document.getElementById('searchBar').addEventListener('keyup', e=>{
+  const q = e.target.value.toLowerCase();
+  renderProducts(products.filter(p=>p.name.toLowerCase().includes(q)));
+});
+
+// FILTERS
+document.querySelectorAll('.chips input').forEach(radio=>{
+  radio.addEventListener('change', ()=>{
+    const cat = radio.id;
+    if(cat==='all'){ renderProducts(products) }
+    else{ renderProducts(products.filter(p=>p.category===cat)) }
+  });
+});
+
+// PRODUCT REVIEW SUBMISSION
+document.getElementById('submitReview').onclick = ()=>{
+  const product = document.getElementById('reviewProduct').value;
+  const rating = document.querySelector('input[name="rating"]:checked')?.value || '0';
+  const qty = document.getElementById('reviewQty').value;
+  const msg = document.getElementById('reviewMsg').value;
+  if(msg===''){ alert('Please write a review!'); return; }
+  const div = document.getElementById('submittedReviews');
+  const reviewElem = document.createElement('p');
+  reviewElem.innerHTML = `<strong>${product}</strong> — ${'★'.repeat(rating)} (${qty} pcs): ${msg}`;
+  div.appendChild(reviewElem);
+  // Clear form
+  document.getElementById('reviewMsg').value='';
+  document.querySelectorAll('input[name="rating"]').forEach(r=>r.checked=false);
+  document.getElementById('reviewQty').value=1;
+}
+</script>
+
+</body>
+</html>
